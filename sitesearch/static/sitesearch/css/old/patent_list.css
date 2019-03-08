@@ -1,0 +1,179 @@
+/*主页面样式表，为搜索后展示的专利列表做样式*/
+body{
+    padding-top:50px;
+}
+.sidebar{
+    z-index:20;
+    display: block;
+    padding:20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.nav-sidebar{
+    margin-right:-21px;
+    margin-bottom:20px;
+    margin-left:-20px;
+}
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+    color:#fff;
+    background-color: #428bca;
+}
+.nav-sidebar > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+.pd11{
+    padding-bottom: 0.4rem;
+    padding-top: 0.6rem;
+}
+.center-y{
+    height:43px;
+}
+.mf11{
+    margin-left: 6.5%;
+}
+.mr0{
+    margin-right: 0rem;
+}
+/*使输入框变长*/
+.width-widner1{
+    width:60%!important;
+}
+.width-widner2{
+    width:100%!important;
+}
+.width-widner3{
+    width:100%!important;
+}
+.width-widner4{
+    width:100%!important;
+}
+.leftin{
+    position: absolute;
+    top:10px;
+    left:85.5%;
+}
+.button:active{
+    outline: none !important;
+    -webkit-appearance: none !important;
+    border-radius: 0 !important;
+    border:0 none !important;
+    box-shadow: inset 0 0px 0px rgba(255,255,255,0);
+}
+.button:focus{
+    outline: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    border:0 none;
+    box-shadow: inset 0 0px 0px rgba(255,255,255,0);
+}
+.mr3{
+    margin:0 10px 0 10px!important;
+    border:none !important;
+    color:#999 !important;
+}
+.mt0{
+    margin-top:0;
+}
+.changeColor{
+    color:#fff !important;
+}
+.down{
+    margin-top: 30px!important;
+}
+.borderNone{
+    border:none;
+}
+.list li a{
+    display: block;
+    font-size: 17px;
+    padding: 0.3rem 0;
+    height:1.1rem;
+
+}
+.list li a span{
+    margin-right: 10px;
+}
+.mr5{
+    margin:0 4px;
+}
+
+
+/*detail*/
+.mainCentent h3{
+    margin: 0;
+    text-align: center;
+}
+.mainCentent h3 p{
+    height: 1rem;
+    font-size: 0.7rem;
+    padding: 10px;
+}
+.mainCentent div p{
+    margin-left:0.7rem;
+}
+.mr4{
+    margin-left: 1.5rem;
+}
+
+/*laws*/
+.mt20{
+    margin-top:2%;
+    margin-bottom: 2%;
+}
+/*laws_details*/
+.bs-docs-header {
+    position: relative;
+    padding: 10px 0;
+    color:#fff;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: #1baf9a;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+    background-repeat: repeat-x;
+  }
+  .mt30{
+    margin-top:2%;
+    margin-bottom: 2%;
+  }
+.pd1{
+    background-color:  #66CC99!important;
+    border: 0!important;
+    color:white!important;
+    padding:0px!important;
+}
+.pd1 h4{
+    margin:0;
+    padding:5px;
+}
+
+  /*advanced search*/
+  .title{
+    margin-bottom: 20px;
+    border-bottom: none;
+    padding-left: 10px;
+    line-height: 2em
+  }
+  .ad-search{
+      padding: 20px;
+      border-radius: 4px;
+        overflow: hidden;
+        -webkit-box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        color: #303133;
+  }
+
+
+  
+  /*form page*/
+  .set-page input{
+      float: none;
+  }
+  .set-page a{
+    float: none!important;
+}
+.bs-docs-sidenav li a{
+    font-size: 0.39rem;
+    color: #303133 !important;
+}

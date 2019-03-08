@@ -1,0 +1,54 @@
+[2019-03-08T20:21:24,878][ERROR][o.e.b.Bootstrap          ] Exception
+java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Spawner.spawnNativePluginControllers(Spawner.java:67) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:167) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:323) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:121) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:112) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:86) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:124) [elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.main(Command.java:90) [elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:92) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:85) [elasticsearch-6.2.0.jar:6.2.0]
+[2019-03-08T20:21:24,898][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [] uncaught exception in thread [main]
+org.elasticsearch.bootstrap.StartupException: java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:125) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:112) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:86) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:124) ~[elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.main(Command.java:90) ~[elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:92) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:85) ~[elasticsearch-6.2.0.jar:6.2.0]
+Caused by: java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Spawner.spawnNativePluginControllers(Spawner.java:67) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:167) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:323) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:121) ~[elasticsearch-6.2.0.jar:6.2.0]
+	... 6 more
+[2019-03-08T20:21:44,850][ERROR][o.e.b.Bootstrap          ] Exception
+java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Spawner.spawnNativePluginControllers(Spawner.java:67) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:167) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:323) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:121) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:112) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:86) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:124) [elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.main(Command.java:90) [elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:92) [elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:85) [elasticsearch-6.2.0.jar:6.2.0]
+[2019-03-08T20:21:44,858][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [] uncaught exception in thread [main]
+org.elasticsearch.bootstrap.StartupException: java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:125) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.execute(Elasticsearch.java:112) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.EnvironmentAwareCommand.execute(EnvironmentAwareCommand.java:86) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.mainWithoutErrorHandling(Command.java:124) ~[elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.cli.Command.main(Command.java:90) ~[elasticsearch-cli-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:92) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.main(Elasticsearch.java:85) ~[elasticsearch-6.2.0.jar:6.2.0]
+Caused by: java.lang.IllegalStateException: plugins directory [D:\patenvv\new\3-fu\PatentMiner\elasticsearch-6.2.0\plugins] not found
+	at org.elasticsearch.bootstrap.Spawner.spawnNativePluginControllers(Spawner.java:67) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.setup(Bootstrap.java:167) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Bootstrap.init(Bootstrap.java:323) ~[elasticsearch-6.2.0.jar:6.2.0]
+	at org.elasticsearch.bootstrap.Elasticsearch.init(Elasticsearch.java:121) ~[elasticsearch-6.2.0.jar:6.2.0]
+	... 6 more

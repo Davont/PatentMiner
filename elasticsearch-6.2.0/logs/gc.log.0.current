@@ -1,0 +1,14 @@
+Java HotSpot(TM) 64-Bit Server VM (25.171-b11) for windows-amd64 JRE (1.8.0_171-b11), built on Mar 28 2018 16:06:12 by "java_re" with MS VC++ 10.0 (VS2010)
+Memory: 4k page, physical 8275872k(2840140k free), swap 14930076k(7562708k free)
+CommandLine flags: -XX:+AlwaysPreTouch -XX:CMSInitiatingOccupancyFraction=75 -XX:GCLogFileSize=67108864 -XX:+HeapDumpOnOutOfMemoryError -XX:InitialHeapSize=1073741824 -XX:MaxHeapSize=1073741824 -XX:MaxNewSize=348966912 -XX:MaxTenuringThreshold=6 -XX:NewSize=348966912 -XX:NumberOfGCLogFiles=32 -XX:OldPLABSize=16 -XX:OldSize=697933824 -XX:-OmitStackTraceInFastThrow -XX:+PrintGC -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:ThreadStackSize=1024 -XX:+UseCMSInitiatingOccupancyOnly -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+UseGCLogFileRotation -XX:-UseLargePagesIndividualAllocation -XX:+UseParNewGC 
+2019-03-08T20:21:44.581+0800: 1.134: Total time for which application threads were stopped: 0.0001893 seconds, Stopping threads took: 0.0000200 seconds
+2019-03-08T20:21:44.589+0800: 1.143: Total time for which application threads were stopped: 0.0001271 seconds, Stopping threads took: 0.0000209 seconds
+2019-03-08T20:21:44.772+0800: 1.325: Total time for which application threads were stopped: 0.0001947 seconds, Stopping threads took: 0.0000191 seconds
+Heap
+ par new generation   total 306688K, used 65434K [0x00000000c0000000, 0x00000000d4cc0000, 0x00000000d4cc0000)
+  eden space 272640K,  24% used [0x00000000c0000000, 0x00000000c3fe6b30, 0x00000000d0a40000)
+  from space 34048K,   0% used [0x00000000d0a40000, 0x00000000d0a40000, 0x00000000d2b80000)
+  to   space 34048K,   0% used [0x00000000d2b80000, 0x00000000d2b80000, 0x00000000d4cc0000)
+ concurrent mark-sweep generation total 707840K, used 0K [0x00000000d4cc0000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 13136K, capacity 13476K, committed 13568K, reserved 1060864K
+  class space    used 1630K, capacity 1764K, committed 1792K, reserved 1048576K

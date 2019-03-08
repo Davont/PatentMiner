@@ -1,0 +1,173 @@
+{% extends 'law_regulate\base.html' %}
+{% load staticfiles %}
+{% block laws_details %}
+{% for law in  law_information %}
+<div class="bs-docs-header">
+    <div class="container">
+        <h2 class="h2">{{law.fields.law_title}}</h2>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <ul>
+              <li class="col-md-6" id="organization"></li>
+              <li class="col-md-6" id="enforce"></li>
+              <li class="col-md-6" id="publish"></li>
+              <li class="col-md-6" id="category"></li>
+            </ul>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="col-md-2">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+          <ul class="nav bs-docs-sidenav" id="tag">
+          </ul>
+          
+        </nav>
+    </div>
+    <div class="col-md-8" id="law-flag">
+    </div>
+    <div class="col-md-2">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+          <ul class="nav bs-docs-sidenav">
+            <li id="goToTop">
+                <a href="javascript:;">返回顶部</a>
+            </li>
+          </ul>
+          
+        </nav>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+
+
+{% endfor %}
+<script>
+  $(function () {
+    //返回顶部
+    $('#goToTop').hide();        //隐藏go to top按钮
+
+        $(window).scroll(function(){
+            // console.log($(this).scrollTop());
+
+            //当window的scrolltop距离大于1时，go to 
+            if($(this).scrollTop() > 100){
+                $('#goToTop').fadeIn();
+            }else{
+                $('#goToTop').fadeOut();
+            }
+        });
+
+        $('#goToTop a').click(function(){
+            $('html ,body').animate({scrollTop: 0}, 300);
+            return false;
+        });
+
+    $(".clarity").css("background-color","rgba(0,0,0,0)")
+    var law={{law_information|safe}};
+    var str=law[0].fields.content
+    var obj = JSON.parse(str); //由JSON字符串转换为JSON对象
+    $("#organization").text("颁布机构："+obj.颁布机构);
+    $("#publish").text("公布日期："+obj.颁布时间);
+    $("#enforce").text("生效日期："+obj.生效时间);
+    $("#category").text("门类："+obj.颁布机构);
+    /*获取json数据长度*/
+    function getJsonLength(jsonData) {
+    var length=0;
+    for(var ever in jsonData) {
+        length++;
+    }
+    return length;
+    }
+    function string() {
+    let num=1;
+    let flag=1;
+    /*增加左侧导航栏*/
+    for( i in obj.内容){
+      let liText="<div class=\"detail-nonespace\" id=\""+num+"\"></div>"
+          + " <div class=\"panel panel-info mt30\" >"
+          + " <div class=\"panel-heading pd1\"><h4 id=\"head"+num+"\"></h4></div>"
+          + "<div class=\"panel-body\" id=\"law-content"+num+"\">"
+          + "<div>"
+          + "<div>"
+          + "<div>";
+      $("#law-flag").append(liText);
+      num=num+1;
+    }
+    /*之所以这样定义，为了后面方便调用*/
+    var a = ["第一章","第二章","第三章","第四章","第五章","第六章","第七章","第八章","第九章","第十章","第十一章","第十二章"];
+    var b = ["第一条","第二条","第三条","第四条","第五条","第六条","第七条","第八条","第九条","第十条","第十一条","第十二条","第十三条","第十四条","第十五条","第十六条","第十七条","第十八条","第十九条","第二十条","第二十一条","第二十二条","第二十三条","第二十四条","第二十五条","第二十六条","第二十七条","第二十八条","第二十九条","第三十条","第三十一条","第三十二条","第三十三条","第三十四条","第三十五条",'第三十六条','第三十七条',"第三十八条","第三十九条","第四十条","第四十一条","第四十二条","第四十三条","第四十四条",'第四十五条',"第四十六条","第四十七条","第四十八条","第四十九条","第五十条","第五十一条","第五十二条","第五十三条","第五十四条","第五十五条","第五十六条","第五十七条","第五十八条","第五十九条",'第六十条',"第六十一条","第六十二条",'第六十三条',"第六十四条","第六十五条","第六十六条","第六十七条","第六十八条","第六十九条","第七十条"];
+    for(let i=0;i<num-1;i++){
+      let tag="<li><a href=\"#"+(i+1)+"\"class=\"font-weight\">"+a[i]+"</a></li>";
+      $("#tag").append(tag);
+    }
+    /*第一种情况，有章节，有条数，章节是大写*/
+    $.each(obj.内容, function(key,val) {
+      let count=-1;
+      for(let i=0;i<a.length;i++){
+        if(key.indexOf(a[i]) >= 0 ){
+          $("#head"+(i+1)).text(key);
+          for(let j=0;j<b.length;j++){
+              if(val[b[j]]){
+                  console.log(b[j])
+                  var pList="<p><span>"+b[j]+"</span>"+val[b[j]]+"</p>"
+                  $("#law-content"+(i+1)).append(pList);
+              }
+              else if(val[j]){
+                var pList="<p><span>"+b[j]+"</span>"+val[j]+"</p>"
+                $("#law-content"+(i+1)).append(pList);
+              }
+          }
+        }
+      }
+      
+      
+      
+     });
+    a.sort();
+    $.each(a, function(i, key) {
+      //window.alert("key = " + obj.内容[key]); // 访问JSON对象属性
+    });
+    var Cts = "第一章 总则"; 
+    if(Cts.indexOf("第一章") >= 0 ) { 
+        //alert('Cts中包含Text字符串'); 
+    }
+    }
+    /*第二种显示方式，没有具体章节，只有相关条数，条数全是数字*/
+    function number(){
+      let num=1;
+      let flag=1;
+      for( i in obj.内容){
+        let liText="<div class=\"detail-nonespace\" id=\""+num+"\"></div>"
+            + " <div class=\"panel panel-info mt30\" >"
+            + " <div class=\"panel-heading pd1\"><h4 id=\"head"+num+"\"></h4></div>"
+            + "<div class=\"panel-body\" id=\"law-content"+num+"\">"
+            + "<div>"
+            + "<div>"
+            + "<div>";
+        $("#law-flag").append(liText);
+        num++;
+      }
+      var a = ["第一条","第二条","第三条","第四条","第五条","第六条","第七条","第八条","第九条","第十条","第十一条","第十二条","第十三条","第十四条","第十五条","第十六条","第十七条","第十八条","第十九条","第二十条","第二十一条","第二十二条","第二十三条","第二十四条","第二十五条","第二十六条","第二十七条","第二十八条","第二十九条","第三十条","第三十一条","第三十二条","第三十三条","第三十四条","第三十五条","第三十六条","第三十七条","第三十八条","第三十九条","第四十条","第四十一条","第四十二条","第四十三条","第四十四条","第四十五条","第四十六条","第四十七条","第四十八条","第四十九条","第五十条","第五十一条","第五十二条","第五十三条","第五十四条","第五十五条","第五十六条","第五十七条","第五十八条","第五十九条","第六十条","第六十一条","第六十二条","第六十三条","第六十四条","第六十五条","第六十六条","第六十七条","第六十八条","第六十九条","第七十条"];
+      $.each(obj.内容, function(key, val) { 
+        $("#head"+flag).text(a[key-1]);
+        $("#law-content"+flag).text(val);
+        let tag="<li><a href=\"#"+(flag)+"\" class=\"font-weight\">"+a[flag-1]+"</a></li>";
+        $("#tag").append(tag);
+        flag=flag+1;
+
+      })
+    }
+    if(obj.内容[1]){
+      number();
+    }
+    else string();
+  })
+</script>
+{%endblock%}

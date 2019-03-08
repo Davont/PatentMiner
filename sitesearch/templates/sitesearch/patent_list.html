@@ -1,0 +1,680 @@
+{% extends 'law_regulate/base.html' %}
+{% load filtrate %}
+{% load staticfiles %}
+{% block topsearch %}
+<!--顶部搜索栏-->
+    <div class="topSearch">
+        <form method="GET" action="{% url 'sitesearch:word_search' %}" id="searchForm">
+            <input type="text" placeholder="请输入查询关键词" class="form-control" name="q" value="{{key_words}}"  autocomplete="off">
+            <input type="text" name="f" value="{{f}}" style="display: none;">
+            <input type="text" name="f_flag" value="0" style="display: none;">
+            <a href="javascript:" onclick="document.getElementById('searchForm').submit();return false;"><i class="fa fa-search"></i></a>
+            <button type="submit" style="display: none;"></button>
+        </form>
+    </div>
+{% endblock %}
+<!--专利列表-->
+{% block tablist %}
+{% if key_words %}
+<!--搜索结果条数、时间统计-->
+<div class="ptb5 fc_gray text-right mr50">
+        共{% autoescape off %}{{ total_nums }}{% endautoescape %}项符合"{{key_words}}"的查询结果（搜索用时{% autoescape off %}{{ last_time }}{% endautoescape %}秒）
+</div>
+<div class="wrapZ">
+    <div class="wrapZCont">
+        <div class="p30 ow">
+            <div class="c findBar">
+                <div class="findSel pull-left">
+                    <label>显示条数</label>
+                        <div class="selDefault sel80">
+                            <select  name="n" class="ui-select">
+                                <option value="10" class="page-default page1">10</option>
+                                <option value="25" class="page2">25</option>
+                                <option value="50" class="page3">50</option>
+                            </select>
+                        </div>
+                    <div class="selDefault">
+                        <select  name="drop2" class="ui-select">
+                            <option class="sort-default sort1">智能排序</option>
+                            <option class="sort2">申请日降序</option>
+                            <option class="sort3">申请日升序</option>
+                            <option class="sort4">公开日降序</option>
+                            <option class="sort5">公开日升序</option>
+                        </select> 
+                    </div> 
+                </div>
+                <div class="search_tab pull-right" id="serTab">
+                    <a href="word_search?q={{key_words}}&p=1&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=0" id="serTab1" ><i class="fa fa-th-large"></i>搜索式</a>
+                    <a href="word_search?q={{key_words}}&p=1&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=1" id="serTab2"><i class="fa fa-th-list"></i>表格式</a>
+                </div>
+            </div>
+            <div class="search-cont mt20"  id="serTab-cont">
+                <!--搜索式模块内容-->
+                <form action="{% url 'sitesearch:excel_export' %}" method="POST" id="starArrayExcel" style="display: none;">{% csrf_token %}
+                    <button type="submit">submit</button>
+                </form>
+                <div id="imgcontainer"></div>
+                <div id="changed-search" class="search-pane">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <ul class="shouq_lst">
+                                {% for patent in search_result %}
+                                <li>
+                                    <!--搜索式相关专利状态缩写-->
+                                    <div class="c search-c">
+                                        <span class="lawStatus-s badge badge-primary badge_big">
+                                            {% with status=patent.legel_status%}
+                                            {% if status == "实质审查的生效" %}
+                                            实审
+                                            {% elif status == "授权" %}
+                                            授权
+                                            {% elif status == "公开" %}
+                                            公开
+                                            {% else %}
+                                            {{status}}
+                                            {% endif %}
+                                            {% endwith %}
+                                        </span>
+                                        <span class="fs_18"><a href="detail?q={{ patent.patent_id }}">
+                                                {% autoescape off %}{{patent.patent_name}}{% endautoescape %}
+                                        </a></span>
+                                        <span class="pl15 mt5 fs_12">{% autoescape off %}{{patent.appli_num}}{% endautoescape %}</span>
+                                    </div>
+                                    <!--单个专利信息-->
+                                    <div class="info">
+                                        <div class="fs_12 lh22 mt5">
+                                            <div class=" fc_gray">
+                                                <span class="">申请人：{% autoescape off %} {{ patent.proposer }} {% endautoescape %}</span>
+                                                <span class="pl40">发明人：{% autoescape off %}{{ patent.inventor }}{% endautoescape %}</span>
+                                            </div>
+                                            <p class="fc_gray">申请地址：{% autoescape off %}{{ patent.proposer_addr }}{% endautoescape %}</p>
+                                            <div class="row">
+                                                {% if patent.priority_time %}
+                                                <div class="col-sm-4 fc_orange2">优先权日：{% autoescape off %}{{ patent.priority_time }}{% endautoescape %}</div>
+                                                {% endif %}
+                                                {% if patent.appli_time %}
+                                                <div class="col-sm-4 fc_orange2">申请日：{% autoescape off %}{{ patent.appli_time }}{% endautoescape %}</div>
+                                                {% endif %}
+                                                {% if patent.pub_time %}
+                                                <div class="col-sm-4 fc_orange2">公开日：{% autoescape off %}{{ patent.pub_time }}{% endautoescape %}</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <p class="ptb5 omit"><i>{% autoescape off %}{{ patent.patent_abs }}{% endautoescape %}</i></p>
+                                        <div class="c mt5">
+                                            <a href="###" class="fc_default mr30"><i class="fa fa-eye fs_18 mr10"></i>在线预览</a>
+                                            <a href="javascript:void(0)" onclick="" class="fc_default mr30"><i class="fa fa-download fs_18 mr10"></i>下载</a>
+                                            <a href="###" class="fc_default mr30"><i class="fa fa-pie-chart fs_18 mr10"></i>分析</a>
+                                            <form method="POST" action="{% url 'sitesearch:collect' %}" id="{% autoescape off %}{{ patent.patent_id }}{% endautoescape %}" style="display: inline-block;">{% csrf_token %}
+                                                <input type="text" name="patent_id" value="{% autoescape off %}{{ patent.patent_id }}{% endautoescape %}" style="display: none;">
+                                                <a href="javascript:void(0)" onclick="starSubmit('{% autoescape off %}{{ patent.patent_id }}{% endautoescape %}')" class="fc_default mr30 starSubmit"><i class="fa fa-star-o fs_18 mr10 {% autoescape off %}{{ patent.patent_id }}{% endautoescape %}"></i>收藏</a>
+                                            </form>  
+                                        </div>
+                                    </div>
+                                    <!--右侧专利相关图片暂时不显示-->
+                                    <div class="shouimg" style="display: none;">
+                                        <img src="{% static 'sitesearch/img/pic_a2.jpg' %}" alt="图片">
+                                    </div>
+                                </li>
+                                
+                                {% empty %}
+                                <p>未搜索到你找的专利</p>
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                            <!--分页-->
+                            {% if search_result %}
+                            <div class="pages mt20">
+                                    <a href="word_search?q={{key_words}}&p=1&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=0">首页</a>
+                                {% if front %}
+                                <a href="word_search?q={{key_words}}&p={{page|add:-1}}&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=0"><i class="fa fa-angle-left mr_5"></i>上一页</a>
+                                {% endif %}
+                                <a class="localPage" style="display: none;"></a>
+                                {% if after %}
+                                <a href="word_search?q={{key_words}}&p={{page|add:+1}}&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=0">下一页<i class="fa fa-angle-right ml_5"></i></a>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-3">
+                            <!--搜索式申请人、发明人CPCs模块，即右侧图表块-->
+                            <!--三个图表-->
+                            <div class="pic" id="main" style="width: 36px;height:100px;">
+                            </div>
+                            <div class="pic" id="main2" style="width: 36px;height:100px;">
+                            </div>
+                            <div class="pic" id="main3" style="width: 36px;height:100px;">
+                            </div>
+                            <div class="shengbox2" id="shengbox22">
+                                <div class="search_tab">
+                                    <a  class="on main-tab1">申请人</a>
+                                    <a  class="main-tab2">发明人</a>
+                                    <a class="main-tab3">IPCs</a>
+                                </div>
+                                <div class="search-cont mt10">
+                                    <div class="search-pane active">
+                                        <table class="shengTable">
+                                            <!--申请人栏目显示-->
+                                            <tbody>
+                                                {% for proposer in procount_result %}
+                                                {% if proposer.proposer and forloop.counter < 8%}
+                                                <tr>
+                                                    <td>
+                                                        <span class="bar bar-color{{ forloop.counter }}"></span>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                        <p><a href="word_search?q={{key}}&p={{page}}&n={{n}}&{{o}}&key_words2={{key_words}}&proposer={{proposer.proposer}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag=1&f=0" id="linkProposer">{{proposer.proposer}}</a></p>             
+                                                    </td>
+                                                    <td class="fc_default">{{proposer.percentage}}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="search-pane">
+                                        <table class="shengTable">
+                                             <!--发明人栏目显示-->
+                                            <tbody>
+                                                    {% for inventer in invcount_result %}
+                                                    {% if inventer.inventer and forloop.counter < 8%}
+                                                    <tr>
+                                                        <td>
+                                                            <span class="bar bar-color{{ forloop.counter }}"></span>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="word_search?q={{key}}&p={{page}}&n={{n}}&{{o}}&key_words2={{key_words}}&inventor={{inventer.inventer}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag=1&f=0">{{inventer.inventer}}</a></p>
+                                                            
+                                                        </td>
+                                                        <td class="fc_default">{{inventer.percentage}}</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                        </table>
+                                    </div>
+                                    <div class="search-pane">
+                                        <table class="shengTable">
+                                            <!--IPC栏目显示-->
+                                            <tbody>
+                                                    {% for ipc in ipccount_result %}
+                                                    {% if ipc.ipc and forloop.counter < 8%}
+                                                    <tr>
+                                                        <td>
+                                                            <span class="bar bar-color{{ forloop.counter }}"></span>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="word_search?q={{key}}&p={{page}}&n={{n}}&{{o}}&key_words2={{key_words}}&ipc_classifi={{ipc.ipc}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag=1&f=0">{{ipc.ipc}}</a></p>
+                                                            
+                                                        </td>
+                                                        <td class="fc_default">{{ipc.percentage}}</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--表格式模块内容-->
+                <div id="changed-form" class="search-pane">
+                    <div class="yzTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th class="lawStatus">法律状态</th>
+                                    <th class="w200">专利名称</th>
+                                    <th>申请号</th>
+                                    <th>申请人</th>
+                                    <th>发明人</th>
+                                    <th>申请日</th>
+                                    <th>分类号</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patent in search_result %}
+                                <tr>
+                                    <td class=list-number>{{forloop.counter}}</td>
+                                    <!--表格式专利状态缩写-->
+                                    <td class="lawStatus"><span class="badge badge-primary badge_big">
+                                            {% with status=patent.legel_status%}
+                                            {% if status == "实质审查的生效" %}
+                                            实审
+                                            {% elif status == "授权"%}
+                                            授权
+                                            {% elif status == "公开" %}
+                                            公开
+                                            {% else %}
+                                            {{status}}
+                                            {% endif %}
+                                            {% endwith %}
+                                        </td></span></td>
+                                    <td id="patent-name-color">
+                                        <span class="lawAdd"><span class="badge badge-primary badge_big mr5">
+                                            {% with status=patent.legel_status%}
+                                            {% if status == "实质审查的生效" %}
+                                            实审
+                                            {% elif status == "授权"%}
+                                            授权
+                                            {% elif status == "公开" %}
+                                            公开
+                                            {% else %}
+                                            {{status}}
+                                            {% endif %}
+                                            {% endwith %}
+                                        </span></span>
+                                        <a href="detail?q={{ patent.patent_id }}">{% autoescape off %}{{ patent.patent_name }}{% endautoescape %}</a>
+                                    </td>
+                                    <td>{% autoescape off %}{{ patent.appli_num }}{% endautoescape %}</td>
+                                    <td>{% autoescape off %}{{ patent.proposer }}{% endautoescape %}</td>
+                                    <td>{% autoescape off %}{{ patent.inventor }}{% endautoescape %}</td>
+                                    <td>{% autoescape off %}{{ patent.appli_time }}{% endautoescape %}</td>
+                                    <td>{% autoescape off %}{{ patent.cpc_classifi }}{% endautoescape %} </td>
+                                    <td>
+                                        <a href="javascript:void(0)" onclick="starSubmit('{% autoescape off %}{{ patent.patent_id }}{% endautoescape %}')" class="fc_default mlr5" class="star_collect"><i class="fa fa-star-o fs_20 {% autoescape off %}{{ patent.patent_id }}{% endautoescape %}"></i></a>
+                                        <a href="###" class="fc_default mlr5"><i class="fa fa-download fs_20 "></i></a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <p>未搜索到您找的专利</p>
+                                {% endfor %}
+                            </tbody>
+                        </table>    
+                    </div>
+                    <!--分页-->
+                    {% if search_result %}
+                    <div class="pages mt20">
+                        <a href="word_search?q={{key_words}}&p=1&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=1">首页</a>
+                        {% if front %}
+                        <a href="word_search?q={{key_words}}&p={{page|add:-1}}&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=1"><i class="fa fa-angle-left mr_5"></i>上一页</a>
+                        {% endif %}
+                        <a class="localPage" style="display: none;"></a>
+                        {% if after %}
+                        <a href="word_search?q={{key_words}}&p={{page|add:+1}}&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f=1">下一页<i class="fa fa-angle-right ml_5"></i></a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="blank20"></div>
+            <div class="blank20"></div>
+        </div>
+    </div>
+    <!-- 历史记录
+    <div class="wrapZHistory">
+        <div class="ptb20 plr30 ow">
+            <div class="c">
+               <h3 class="fs_18 pull-left historyRecord">历史记录</h3>
+               <i class="fa fa-arrow-right pull-right arrows" id="arrowHistory"></i>
+            </div> 
+            <div class="news-lst">
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+                <a href="###">标题标题标题标题标题标题标题标题标题...</a>
+            </div>
+            <div class="blank20"></div>
+            <div class="blank20"></div>
+        </div>
+    </div> -->
+   
+    <!--搜索条款即左侧二级搜索栏目-->
+    <div class="wrapZLeft">
+        <div class="p30 ow">
+            <div class="c">
+               <h3 class="fs_18 pull-left historyRecord">结果筛选</h3>
+               <i class="fa fa-arrow-left pull-right arrows" id="arrowLeft"></i>
+            </div> 
+            <form method="GET" action="{% url 'sitesearch:word_search' %}" id="searchForm-m">
+            <div class="mt20 searchbar">
+                    <input type="text" name="q" value="{{key_words}}" style="display: none;">
+                    <input type="text" placeholder="关键词" class="form-control" name="key_words2" value="{{filter_words.SSC}}"  autocomplete="off">
+                    <a href="javascript:" onclick="document.getElementById('searchForm-m').submit();return false;" class="tiaosearch"><i class="fa fa-search"></i></a>
+            </div>
+            <div class="c dateSel mtb20">
+                <span class="pull-left">日期</span>
+                <div class="selSp">
+                    <select  name="search_date" class="ui-select">
+                        <option value="{{filter_words.SSRQ}}">
+                            {% with SSRQ=filter_words.SSRQ %}
+                            {% ifequal SSRQ "appli_time"%}
+                            申请日
+                            {% endifequal %}
+                            {% ifequal SSRQ "pub_time" %}
+                            公开日
+                            {% endifequal %}
+                            {% ifequal SSRQ "" %}
+                            请选择
+                            {% endifequal %}
+                            {% endwith %}
+                        </option>
+                        <option value="appli_time">申请日</option>
+                        <option value="pub_time">公开日</option>
+                    </select> 
+                </div> 
+            </div>
+            <div class="updata">
+                <input placeholder="{{filter_words.QSRQ}}" name="begin_date" class="form-control layer-date" id="start" value="{{filter_words.QSRQ}}"  autocomplete="off">
+                <span class="timeline">&mdash;</span>
+                <input placeholder="{{filter_words.JSRQ}}" name="end_date" class="form-control layer-date" id="end" value="{{filter_words.JSRQ}}"  autocomplete="off">
+            </div>
+            <div class="row moreSel">
+                <div class="col-sm-6">
+                    <div class="selSort">
+                        <select  name="drop4" class="ui-select" disabled="disabled">
+                            <option value="10">专利局</option>
+                            <option value="25">专利局</option>
+                            <option value="50">专利局</option>
+                        </select> 
+                    </div> 
+                </div>
+                <div class="col-sm-6">
+                    <div class="selSort">
+                        <select  name="language" class="ui-select">
+                            <option value="{{filter_words.ZLYY}}" class="pat-lan">
+                                    {% with ZLYY=filter_words.ZLYY %}
+                                    {% ifequal ZLYY "CN"%}
+                                    中文
+                                    {% else %}
+                                    专利语言
+                                    {% ifequal ZLYY "EN" %}
+                                    英文
+                                    {% else %}
+                                    专利语言
+                                    {% endifequal %}
+                                    {% endifequal %}
+                                    {% endwith %}
+                            </option>
+                            <option value="CN">中文</option>
+                            <option value="EN">英文</option>
+                        </select> 
+                    </div> 
+                </div>
+                <div class="col-sm-6">
+                    <div class="selSort">
+                        <select  name="patent_type" class="ui-select" disabled="disabled">
+                            <option>发明</option>
+                            <option>实用新型</option>
+                            <option>外观设计</option>
+                            <option>发明授权</option>
+                        </select> 
+                    </div> 
+                </div>
+                <div class="col-sm-6">
+                    <div class="selSort">
+                        <select  name="legal_status" class="ui-select">
+                            <option value="{{filter_words.FLZT}}" class="law-sta">
+                                    {% with FLZT=filter_words.FLZT %}
+                                    {% if FLZT %}
+                                        {% ifequal FLZT "实质审查的生效"%}
+                                            实审
+                                        {% else %}
+                                        {{filter_words.FLZT}}
+                                        {% endifequal %}
+                                    {% else %}
+                                    法律状态
+                                    {% endif %}
+                                    {% endwith %}
+                            </option>
+                            <option value="授权">授权</option>
+                            <option value="实质审查的生效">实审</option>
+                            <option value="公开">公开</option>
+                            <option value="发明专利申请公布">发明专利申请公布</option>
+                            <option value="发明专利权授予">发明专利权授予</option>
+                            <option value="专利申请权的转移">专利申请权的转移</option>
+                            <option value="实用新型专利权授予">实用新型专利权授予</option>
+                            <option value="外观设计专利权授予">外观设计专利权授予</option>
+                            <option value="国际专利申请公布">国际专利申请公布</option>
+                        </select>
+                        <input type="text" name="f_flag" value="{{f_flag}}" style="display: none;"> 
+                        <input type="text" name="f" value="{{f}}" style="display: none;"> 
+                    </div> 
+                </div>
+            </div>
+            <a href="javascript:" onclick="document.getElementById('searchForm-m').submit();return false;" class="btn-search mt20">立即搜索</a>
+        </form>
+            <div class="blank20"></div>
+            <div class="blank20"></div>
+        </div>
+    </div>
+    <div class="wrapZLeft-sm" id="arrowLeft-sm">
+        搜索条款
+        <i class="fa fa-arrow-right mt10"></i>
+    </div>
+<!--     
+    <div class="wrapZHistory-sm" id="arrowHistory-sm">
+        历史记录
+        <i class="fa fa-arrow-left mt10"></i>
+    </div>
+    -->
+</div>
+<script src="{% static 'sitesearch/js/new/laydate/laydate.js' %}"></script>
+    <script>
+       var ZLMC="{{zlmc|safe}}";//专利名称
+        console.log(ZLMC);
+        /*声明Django 模板里变量，为右侧图表增加支持数据*/
+        var inv={{invcount_result|safe}};//发明人数据
+        var ipc={{ipccount_result|safe}};//IPC数据
+        var pro={{procount_result|safe}};//申请人
+        /*获取 显示方式的标志位 0代表表格式，1代表搜索式*/
+        var key_wordsf={{f|safe}};
+        /*获取 变量
+        * page_nums:所有页数
+        * page_nums：当前显示页数
+        */
+        var pageNum={{page_nums|safe}};
+        var page={{page|safe}};
+        /**
+        * 左侧二级搜索栏日期时间API
+        */
+        var start = {
+            elem: '#start',
+            format: 'YYYY-MM-DD',
+            min: '1950-01-01 00:00:00', //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            elem: '#end',
+            format: 'YYYY-MM-DD',
+            min: '1950-01-01 00:00:00',
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(start);
+        laydate(end);
+
+        $(document).ready(function () {
+            $(".ui-select").selectWidget({
+                change: function (changes) {
+                    if (!isNaN(changes)) {
+                        window.open("?q={{key_words|safe}}&p={{page}}&n=" + changes + "&o={{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                    } else if (changes == "申请日升序" || changes == "申请日降序" || changes == "公开日升序" || changes == "公开日降序" || changes == "智能排序") {
+                        let sortkey = changes;
+                        if (sortkey == "智能排序") {
+                            window.open("?q={{key_words|safe}}&p={{page}}&n={{n}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                        } else if (sortkey == "申请日降序") {
+                            window.open("?q={{key_words|safe}}&p={{page}}&n={{n}}&o=appli_desc&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                        } else if (sortkey == "申请日升序") {
+                            window.open("?q={{key_words|safe}}&p={{page}}&n={{n}}&o=appli_asc&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                        } else if (sortkey == "公开日降序") {
+                            window.open("?q={{key_words|safe}}&p={{page}}&n={{n}}&o=pub_desc&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                        } else if (sortkey == "公开日升序") {
+                            window.open("?q={{key_words|safe}}&p={{page}}&n={{n}}&o=pub_asc&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}", "_self");
+                        }
+                    }
+                    return changes;
+                },
+                effect: "slide",
+                keyControl: true,
+                speed: 200,
+                scrollHeight: 250
+            });
+        });
+
+        /** 
+         * 分页（当前缺陷，初始共8页，意味着 如果搜索到小于8页的信息，还是会显示8页）
+         */
+
+        var t = 0;
+
+        for (var i = 1; i <= 8; i++) {
+            var liText = "<a class=\'pageNum" + i + "\' href=\"javascript:void(0);\"onclick=\'window.open(\"?q={{key_words}}&p=" + i + "&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}\",\"_self\")\'>" + i + "</a>";
+            $(".localPage").before(liText);
+        }
+
+        function addPage() {
+            var judge = $(".pageNum" + page).hasClass("on");
+            if ((page % 8 != 0) && (page > 8)) {
+                for (var i = 1; i <= 8; i++) {
+                    $(".pageNum" + i).remove();
+                }
+                for (var i = page - 2;
+                    (i <= (page + 5) && i <= pageNum + 1); i++) {
+                    var liText = "<a class=\'pageNum" + (i - 1) + "\'href=\"javascript:void(0);\"onclick=\'window.open(\"?q={{key_words}}&p=" + (i - 1) + "&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}\",\"_self\")\'>" + (i - 1) + "</a>";
+                    $(".localPage").before(liText);
+                }
+            } else if ((page % 8 == 0) && (page > 3)) {
+                for (var i = 1; i <= 8; i++) {
+                    $(".pageNum" + i).remove();
+                }
+                for (var i = page - 2;
+                    (i <= (page + 5) && i <= pageNum + 1); i++) {
+                    var liText = "<a class=\'pageNum" + (i - 1) + "\'href=\"javascript:void(0);\"onclick=\'window.open(\"?q={{key_words}}&p=" + (i - 1) + "&n={{n}}&{{o}}&key_words2={{filter_words.SSC}}&search_date={{filter_words.SSRQ}}&begin_date={{filter_words.QSRQ}}&end_date={{filter_words.JSRQ}}&language={{filter_words.ZLYY}}&legal_status={{filter_words.FLZT}}&f_flag={{f_flag}}&f={{f}}\",\"_self\")\'>" + (i - 1) + "</a>";
+                    $(".localPage").before(liText);
+                }
+            }
+        }
+        addPage();
+        $(".pageNum" + page).addClass("on");
+        $(".pageNum" + page).children().addClass("on");
+        $("#serTab a").each(function () {
+            if ($($(this))[0].href == String(window.location))
+                $(this).parent().addClass("on");
+        });
+        /**
+         * 收藏功能 只需提交 patent_id 至后台，即可。
+         */
+
+        /*提交收藏 */
+        function starSubmit(patentId) {
+            var ptI=document.getElementById(patentId);
+            $.ajax({  
+            url: "{% url 'sitesearch:collect' %}", 
+            type: 'POST', 
+            data: {
+                'patent_id':patentId,
+            }, 
+            dataType: 'json',  
+            success:function(data){
+                let star=document.getElementsByClassName(patentId);
+                if(data[patentId]){
+                    $(star).removeClass("fa-star-o");
+                    $(star).addClass("fa-star");
+                }
+                else{
+                    $(star).removeClass("fa-star");
+                    $(star).addClass("fa-star-o");
+                }
+
+            },
+            error:function(request, errorType, errorMessage) {
+                console.log(request);
+                console.log(errorType);
+                console.log(errorMessage);
+            }
+        })
+        }
+        /*导航栏里面的收藏列表  直接访问后台即可*/
+        var starArray=new Array();
+        function clickList() {
+            $("#starList").empty();
+            let i=0;
+            $.ajax({  
+            url: "{% url 'sitesearch:collect' %}", 
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                'patent_id':'',
+            },  
+            success:function(data){
+                jQuery.each(data,function (index,element) {
+                    starArray.push(index)  
+                })
+                if(Object.keys(data).length){
+                    for(name in data){
+                        let starList="<li><a  href=\"detail?q="+name+"\">"+data[name].patent_name+" "+data[name].appli_num+"</a></li>";
+                        $("#starList").append(starList);
+                    }
+                    let more="<li id=\"excel_more\"><span class=\"excel-left\"><a href=\"javascript:void(0);\" onclick=\"excelExport()\">导出</a></span> <span class=\"more-right\"><a href=\"/collection\">查看全部</a></span> </li>";
+                    $("#starList").append(more);
+                }
+                else{
+                    let notList="<li><h3 style=\"padding:16px;\">暂无专利</h3></li>";
+                    $("#starList").append(notList);
+                }
+                
+            },
+            error:function(request, errorType, errorMessage) {
+                console.log(request);
+                console.log(errorType);
+                console.log(errorMessage);
+            }
+        })
+        }
+        /*Excel导出 */
+        function excelExport() {
+            for(list in starArray){
+                let starlist="<input type=\"text\" name=\"patent_list\" value="+starArray[list]+">";
+                $("#starArrayExcel").append(starlist);
+            }
+            $("#starArrayExcel").submit();
+        }
+        /*增加收藏列表 */
+        $.ajax({  
+            url: "{% url 'sitesearch:collect' %}", 
+            type: 'POST', 
+            data: {
+                'patent_id':"",
+            }, 
+            dataType: 'json',  
+            success:function(data){
+                for(name in data){
+                    var n=document.getElementsByClassName(name);
+                    $(n).removeClass("fa-star-o");
+                    $(n).addClass("fa-star");
+                }
+                
+                
+            },
+            error:function(request, errorType, errorMessage) {
+                console.log(request);
+                console.log(errorType);
+                console.log(errorMessage);
+            }
+        })
+    </script>
+    <script src="{% static 'sitesearch/js/patentList.js' %}"></script>
+{% endblock %}
+{% block ajax %}
+{% endblock %}
+{% block clickList %}
+{% endblock %}

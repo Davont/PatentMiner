@@ -1,0 +1,220 @@
+{% extends 'law_regulate/base.html' %}
+{% load staticfiles %}
+{% block topsearch %}
+    <div class="topSearch">
+        <form method="GET" action="{% url 'sitesearch:word_search' %}" id="searchForm">
+            <input type="text" placeholder="请输入查询关键词" class="form-control" name="q" value="{{key_words}}">
+            <a href="javascript:" onclick="document.getElementById('searchForm').submit();return false;"><i class="fa fa-search"></i></a>
+        </form>
+    </div>
+{% endblock %}
+{% block whitespace %}
+    <div class="container-fluid whitespace"></div>
+{% endblock %}
+{% block detail%}
+<div class="wrapZ">
+        <!--专利详情-->
+        <div class="wrapZCont2">
+            <div class="p30 ow">
+                <div class="c">
+                    <div class="pull-left shouquan">
+                        {% for patent in patent_info %}
+                        <span class="badge badge-primary badge_big mr10">{% autoescape off %}{{patent.fields.legel_status}}{% endautoescape %}</span>
+                        <h3>{% autoescape off %}{{patent.fields.patent_name}}{% endautoescape %}</h3>
+                    </div>
+                    <!-- <div class="pull-right fc_gray">
+                        admin  2018-06-01  08:54:01
+                    </div> -->
+                </div>
+                
+                <div class="fc_default mt20 mb10 fs_16">摘要</div>
+                <div>
+                    {% autoescape off %}{{patent.fields.patent_abs}}{% endautoescape %}
+                </div>
+                <!-- <div class="mt5">
+                    <span class="fc_orange2 mr20">关键字</span>
+                    <span class="fc_orange2 mr20">关键字</span>
+                    <span class="fc_orange2 mr20">关键字</span>
+                    <span class="fc_orange2 mr20">关键字</span>
+                </div> -->
+                <div id="patent-claim"></div>
+                <div class="Toggle">
+                    <div class="fc_default ToggleBtn mtb20 fs_16">
+                        权利要求书
+                        <span class="pull-right"><i class="fa fa-angle-double-down"></i></span>
+                    </div>
+                    <div class="yzTable">
+                        {% for patent2 in patentotherinfo%}
+                            {% autoescape off %}{{patent2.fields.patent_claims}}{% endautoescape %}
+                        {% endfor %} 
+                    </div>
+                </div>
+                <div id="patent_intro"></div>
+                <div class="Toggle">
+                    <div class="fc_default ToggleBtn mtb20 fs_16" >
+                        专利全文
+                        <span class="pull-right"><i class="fa fa-angle-double-down"></i></span>
+                    </div>
+                    <div class="yzTable">
+                            {% for patent3 in patentotherinfo%}
+                                {% autoescape off %}{{patent3.fields.instructions}}{% endautoescape %}
+                            {% endfor %}
+                    </div>
+                </div>
+
+                <div id="patent-families"></div>
+                <div class="Toggle">
+                    <div class="fc_default ToggleBtn mtb20 fs_16" >
+                        同族专利
+                        <span class="pull-right"><i class="fa fa-angle-double-down"></i></span>
+                    </div>
+                    
+                    <div class="yzTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>申请号</th>
+                                    <th>公开号</th>
+                                    <th>专利名称</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patent3 in reference %}
+                                <tr>
+                                    <td>{{patent3.fields.other_appli_num}}</td>
+                                    <td>{{patent3.fields.other_pub_num}}</td>
+                                    <td>{{patent3.fields.other_title}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="legel-status"></div>
+                <div class="Toggle">
+                    <div class="fc_default ToggleBtn mtb20 fs_16">
+                        法律状态
+                        <span class="pull-right"><i class="fa fa-angle-double-down"></i></span>
+                    </div>
+                    <div class="yzTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>申请号</th>
+                                    <th>法律状态生效日</th>
+                                    <th>法律状态含义</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patent4 in lawstatus %}
+                                <tr>
+                                    <td>{{patent.fields.appli_num}}</td>
+                                    <td>{{patent4.fields.law_effective_date}}</td>
+                                    <td>{{patent4.fields.law_meaning}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="blank20"></div>
+                <div class="blank20"></div>
+            </div>
+        </div>
+        <!--专利信息-->
+        <div class="wrapZRight">
+            <div class="ptb20 plr30 ow">
+                <div class="c">
+                   <h3 class="fc_default fs_20 fw  pull-left">{% autoescape off %}{{patent.fields.appli_num}}{% endautoescape %}</h3>
+                   <i class="fa fa-arrow-right pull-right arrows" id="arrowRight"></i>
+                </div> 
+                <div class="wBorder mt20">
+                    <ul class="faInfo">
+                        <li><span>发明人：</span><p>{% autoescape off %}{{patent.fields.inventor}}{% endautoescape %}</p></li>
+                        <li><span>申请人：</span><p>{% autoescape off %}{{patent.fields.proposer}}{% endautoescape %}</p></li>
+                        <li><span>申请日：</span><p>{% autoescape off %}{{patent.fields.appli_time}}{% endautoescape %}</p></li>
+                        <li><span>优先权号：</span><p>{% autoescape off %}{{patent.fields.priority_num}}{% endautoescape %}</p></li>
+                        <li><span>优先权日：</span><p>{% autoescape off %}{{patent.fields.priority_time}}{% endautoescape %}</p></li>
+                        <li><span>公开号：</span><p>{% autoescape off %}{{patent.fields.pub_num}}{% endautoescape %}</p></li>
+                        <li><span>公开日：</span><p>{% autoescape off %}{{patent.fields.pub_time}}{% endautoescape %}</p></li>
+                    </ul>
+                </div>
+                {% endfor %}
+               <div class="wBorder mt20">
+                    <ul class="lianInfo" >
+                        <li class="cative"><a href="#patent-claim">权利要求书</a> </li>
+                        <li><a href="#patent_intro">说明书</a> </li>
+                        <li><a href="#patent-families">同族专利</a> </li>
+                        <li><a href="#legel-status">法律状态</a> </li>
+                    </ul>
+               </div>
+               {% for patent in patent_info %}
+               <div class="downSee mt20 c">
+                   <a href="###" class="btn-down"><i class="fa fa-download"></i>下载</a>
+                   <a href="javascript:void(0);" onclick="starSubmit('{% autoescape off %}{{patent.pk}}{% endautoescape %}')" class="btn-see" ><i class="fa fa-star"></i>收藏</a>
+                   <a href="javascript:void(0);" onclick="starSubmit('{% autoescape off %}{{patent.pk}}{% endautoescape %}')" class="btn-seed"><i class="fa fa-star"></i>已收藏</a>
+               </div>
+               {% endfor %}
+               <div class="blank20"></div>
+               <div class="blank20"></div>
+            </div>
+        </div>
+        <div class="wrapZRight-sm" id="arrowRight-sm">
+            专利信息
+            <i class="fa fa-arrow-left mt10"></i>
+        </div>
+    </div>
+    <script>
+        /** 
+         * 增加专利收藏功能，函数和Patent_list.js 里面的函数基本一样
+        */
+        let info={{patent_info|safe}}[0].pk;
+        function starSubmit(patentId) {
+            console.log(patentId);
+            $.ajax({  
+            url: "{% url 'sitesearch:collect' %}", 
+            type: 'POST', 
+            data: {
+                'patent_id':patentId,
+            }, 
+            dataType: 'json',  
+            success:function(data){
+                console.log(data);
+            },
+            error:function(request, errorType, errorMessage) {
+                console.log(request);
+                console.log(errorType);
+                console.log(errorMessage);
+            }
+        })
+        }
+        /*Ajax获取收藏列表*/
+        $.ajax({  
+            url: "{% url 'sitesearch:collect' %}", 
+            type: 'POST', 
+            dataType: 'json',  
+            success:function(data){
+                let flag=0;
+                for(name in data){
+                    if(info==name){
+                        $(".btn-see").hide();
+                        $(".btn-seed").show();
+                        flag=1;
+                        break;
+                    }
+                }
+                if(!flag){
+                    $(".btn-see").show();
+                    $(".btn-seed").hide();
+                }
+                
+                
+            },
+            error:function(request, errorType, errorMessage) {
+                console.log(request);
+                console.log(errorType);
+                console.log(errorMessage);
+            }
+        })
+    </script>
+{% endblock %}

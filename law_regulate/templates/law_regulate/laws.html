@@ -1,0 +1,604 @@
+{% extends 'law_regulate\base.html' %}
+{% load filtrate %}
+{% load staticfiles %}
+{% block laws %}
+<div class="col-sm-1"></div>
+<div class="col-sm-10">
+  <div class="col-md-12 page-header pg-header">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form class="col-md-12" role="search" method="GET" action="{% url 'law_regulate:law_search' %}" id="indexSearch">
+            <div class="col-md-2"><i class="lawlogo fa fa-university fa-3x fa-fw"  aria-hidden="true"></i></div>
+            <div class="form-group col-md-10  mt7">
+                <input  type="text" class="higher col-md-12 col-sm-9 col-xs-9" name="law_title" placeholder="搜索专利" id="searchDate">
+                <a href="javascript:" name="submit" onclick="$('#indexSearch').submit();return false;" class="index-s"><i class="fa fa-search fa-2x"></i></a>        
+            </div>
+        </form>
+    </div>
+      
+      <div class="col-md-3"></div>
+  </div>
+  <div class="col-md-12 no-pd">
+        <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs law-list" role="tablist">
+                  <li role="presentation" class="active"><a href="#antitrust-law" aria-controls="antitrust-law" role="tab" data-toggle="tab">反垄断</a></li>
+                  <li role="presentation"><a href="#copyright-law" aria-controls="copyright-law" role="tab" data-toggle="tab">著作权</a></li>
+                  <li role="presentation"><a href="#domain-name-law" aria-controls="domain-name-law" role="tab" data-toggle="tab">域名</a></li>
+                  <li role="presentation"><a href="#geographical-indication-law" aria-controls="geographical-indication-law" role="tab" data-toggle="tab">地理标志法</a></li>
+                  <li role="presentation"><a href="#integrated-circuit" aria-controls="integrated-circuit" role="tab" data-toggle="tab">集成电路法</a></li>
+                  <li role="presentation"><a href="#new-plant-species" aria-controls="new-plant-species" role="tab" data-toggle="tab">植物新品种</a></li>
+                  <li role="presentation"><a href="#patent-law" aria-controls="patent-law" role="tab" data-toggle="tab">专利法</a></li>
+                  <li role="presentation"><a href="#software-copyright" aria-controls="software-copyright" role="tab" data-toggle="tab">软件著作权法</a></li>
+                  <li role="presentation"><a href="#trademark" aria-controls="trademark" role="tab" data-toggle="tab">商标法</a></li>
+                </ul>
+              
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="antitrust-law">
+                        <div class="list-group local-laws">
+                                <div class="col-md-12 no-pd">
+                                        <div class="list-group national-laws">
+                                                <a href="#" class="list-group-item active">
+                                                  法律
+                                                </a>
+                                                <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                                {% for antitrust in antitrust_list.law %}
+                                                    <a href="law_detail?laws_id={{antitrust.id}}&json_title={{antitrust.json_tile}}"antitrust_law.json"#7" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">{{antitrust.effect_time}}</span></a>
+                                                {% endfor %}
+                                                <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more1" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more1" class="collapse">
+                                                {% for antitrust in antitrust_list.law %}
+                                                    <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                {% endfor %}
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-12 no-pd">
+                                    <div class="list-group national-laws " >
+                                        <a href="#" class="list-group-item active">国务院部门规章</a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for antitrust in antitrust_list.state %}
+                                                <a href="law_detail?laws_id={{antitrust.id}}&json_title={{antitrust.json_tile}}" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">{{antitrust.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#demo" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="demo" class="collapse">
+                                                {% for antitrust in antitrust_list %}
+                                                        {% ifequal antitrust.json_tile  "antitrust_law.json" %}
+                                                        {% ifequal antitrust.category  "国务院部门规章" %}
+                                                    <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>       
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="copyright-law">
+                        <div class="list-group local-laws">
+                                        <div class="col-md-12 no-pd">
+                                                        <div class="list-group national-laws">
+                                                                <a href="#" class="list-group-item active">
+                                                                    法律
+                                                                </a>
+                                                                <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                                                {% for list in copyright_list.law %}
+                                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                                {% endfor %}
+                                                                <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more3" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                                <div id="more3" class="collapse">
+                                                                        {% for antitrust in law_information %}
+                                                                                {% ifequal antitrust.json_tile  "copyright_law.json" %}
+                                                                                {% ifequal antitrust.category  "法律" %}
+                                                                            <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                                {% endifequal %}
+                                                                                {% endifequal %}
+                                                                        {% endfor %}
+                                                                </div>
+                                                        </div>
+                                                  </div>
+                                                  <div class="col-md-12 no-pd">
+                                                        <div class="list-group national-laws">
+                                                                <a href="#" class="list-group-item active">
+                                                                  国务院部门规章
+                                                                </a>
+                                                                <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                                                {% for list in copyright_list.state %}
+                                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                                {% endfor %}
+                                                                <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more4" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                                <div id="more4" class="collapse">
+                                                                        {% for antitrust in law_information %}
+                                                                                {% ifequal antitrust.json_tile  "copyright_law.json" %}
+                                                                                {% ifequal antitrust.category  "国务院部门规章" %}
+                                                                            <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                                {% endifequal %}
+                                                                                {% endifequal %}
+                                                                        {% endfor %}
+                                                                </div>
+                                                        </div>
+                                                  </div>
+                                <div class="col-md-12 no-pd">
+                                        <div class="list-group national-laws">
+                                                <a href="#" class="list-group-item active">
+                                                  行政法规
+                                                </a>
+                                                <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                                {% for list in copyright_list.admin %}
+                                                    <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                {% endfor %}
+                                                <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more2" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more2" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "copyright_law.json" %}
+                                                                {% ifequal antitrust.category  "行政法规" %}
+                                                            <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                        </div>
+                                  </div>
+                                  
+                                  <div class="col-md-12 no-pd">
+                                        <div class="list-group national-laws">
+                                                <a href="#" class="list-group-item active">
+                                                  地方政府规章
+                                                </a>
+                                                <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                                {% for list in copyright_list.govregulations %}
+                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                {% endfor %}
+                                                <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more5" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more5" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "copyright_law.json" %}
+                                                                {% ifequal antitrust.category  "地方政府规章" %}
+                                                            <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                        </div>
+                                  </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="domain-name-law">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in domain_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more7" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more7" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "domain_name_law.json" %}
+                                                        {% ifequal antitrust.category  "国务院部门规章" %}
+                                                    <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="geographical-indication-law">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in geographical_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more8" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more8" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "geographical_indication_law.json" %}
+                                                        {% ifequal antitrust.category  "国务院部门规章" %}
+                                                    <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="integrated-circuit">
+                        <div class="list-group local-laws">
+                        
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in integrated_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more10" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more10" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "geographical_indication_law.json" %}
+                                                                {% ifequal antitrust.category  "国务院部门规章" %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="new-plant-species">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in new_plant_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more11" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more11" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "new_plant_species_law.json" %}
+                                                        {% ifequal antitrust.category  "国务院部门规章" %}
+                                                        <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          行政法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in new_plant_list.admin %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more12" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more12" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "new_plant_species_law.json" %}
+                                                        {% ifequal antitrust.category  "行政法规" %}
+                                                        <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方性法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in new_plant_list.regulations %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more13" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more13" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "new_plant_species_law.json" %}
+                                                                {% ifequal antitrust.category  "地方性法规" %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="patent-law">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          法律
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                         {% for list in patent_list.law %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more14" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more14" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "patent_law.json" %}
+                                                        {% ifequal antitrust.category  "法律" %}
+                                                        <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          行政法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in patent_list.admin %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more15" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more15" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "patent_law.json" %}
+                                                                {% ifequal antitrust.category  "行政法规" %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in patent_list.state %}
+                                        {% if forloop.counter < 6%}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <a  class="list-group-item" data-toggle="collapse" data-target="#more16" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a>
+                                        <div id="more16" class="collapse">
+                                                {% for list in patent_list.state %}
+                                                {% if forloop.counter > 5%}
+                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                {% endif %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方政府规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in patent_list.govregulations %}
+                                        {% if forloop.counter < 6%}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <a  class="list-group-item" data-toggle="collapse" data-target="#more17" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a>
+                                        <div id="more17" class="collapse">
+                                                {% for list in patent_list.govregulations %}
+                                                {% if forloop.counter > 5 %}
+                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                {% endif %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方性法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in patent_list.regulations %}
+                                        {% if forloop.counter < 6%}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <a  class="list-group-item" data-toggle="collapse" data-target="#more18" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a>
+                                        <div id="more18" class="collapse">
+                                                {% for list in patent_list.regulations %}
+                                                {% if forloop.counter > 5 %}
+                                                        <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                {% endif %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="software-copyright">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in software_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more19" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more19" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "software_copyright_law.json" %}
+                                                                {% ifequal antitrust.category  "国务院部门规章" %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方性法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in software_list.regulations %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more20" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more20" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "software_copyright_law.json" %}
+                                                                {% ifequal antitrust.category  "地方性法规" %}
+                                                                {% if forloop.counter > 5 %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endif %}
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="trademark">
+                        <div class="list-group local-laws">
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          法律
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in trademark_list.law %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more21" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more21" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "trademark_law.json" %}
+                                                        {% ifequal antitrust.category  "法律" %}
+                                                        {% if forloop.counter > 5 %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endif %}
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          行政法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in trademark_list.admin %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more22" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                        <div id="more22" class="collapse">
+                                                {% for antitrust in law_information %}
+                                                        {% ifequal antitrust.json_tile  "trademark_law.json" %}
+                                                        {% ifequal antitrust.category  "行政法规" %}
+                                                        {% if forloop.counter < 6 %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                        {% endif %}
+                                                        {% endifequal %}
+                                                        {% endifequal %}
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          国务院部门规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in trademark_list.state %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endfor %}
+                                        <!-- <a  class="list-group-item" data-toggle="collapse" data-target="#more23" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a> -->
+                                                <div id="more23" class="collapse">
+                                                        {% for antitrust in law_information %}
+                                                                {% ifequal antitrust.json_tile  "trademark_law.json" %}
+                                                                {% ifequal antitrust.category  "国务院部门规章" %}
+                                                                {% if forloop.counter < 6 %}
+                                                                <a href="#" class="list-group-item" >{{antitrust.law_title}}<span class="f-right">2018-07-05</span></a>
+                                                                {% endif %}
+                                                                {% endifequal %}
+                                                                {% endifequal %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方性法规
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in trademark_list.regulations %}
+                                        {% if forloop.counter < 6 %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <a  class="list-group-item" data-toggle="collapse" data-target="#more24" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a>
+                                                <div id="more24" class="collapse">
+                                                        {% for list in trademark_list.regulations %}
+                                                                {% if forloop.counter > 5 %}
+                                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                                {% endif %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                        <div class="col-md-12 no-pd">
+                                <div class="list-group national-laws">
+                                        <a href="#" class="list-group-item active">
+                                          地方政府规章
+                                        </a>
+                                        <a href="laws_details" class="list-group-item law-flag" style="display: none;"><span class="f-right">2018-07-05</span></a>
+                                        {% for list in trademark_list.govregulations %}
+                                        {% if forloop.counter < 6 %}
+                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <a  class="list-group-item" data-toggle="collapse" data-target="#more25" style="text-align: right;"><span style="color: #fa3932; margin: 1em 1em;">更多...</span></a>
+                                                <div id="more25" class="collapse">
+                                                        {% for list in trademark_list.govregulations %}
+                                                        {% if forloop.counter < 6 %}
+                                                                <a href="law_detail?laws_id={{list.id}}&json_title={{list.json_tile}}" class="list-group-item" >{{list.law_title}}<span class="f-right">{{list.effect_time}}</span></a>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                </div>
+                                </div>
+                        </div>
+                  </div>
+                </div>
+        </div>
+      
+  </div>
+  
+</div>
+<div class="col-sm-1"></div>
+<script>
+    function getJsonLength(jsonData){
+        var jsonLength = 0;
+        for(var item in jsonData){
+        jsonLength++;
+        }
+        return jsonLength;
+
+    }
+
+    var law={{trademark_list|safe}};
+    console.log(law);
+</script>
+{% endblock%}

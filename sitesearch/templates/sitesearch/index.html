@@ -1,0 +1,58 @@
+{% extends 'law_regulate/base.html' %}
+{% load staticfiles %}
+{% block background-birds %}
+<!--Canvas-->
+<div class="bg">
+    <div id="birds-canvas-holder"></div>
+</div>
+<script type="text/javascript" src="{% static 'sitesearch/js/three.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'sitesearch/js/renderers/Projector.js' %}"></script>
+<script type="text/javascript" src="{% static 'sitesearch/js/renderers/CanvasRenderer.js' %}"></script>
+<script type="text/javascript" src="{% static 'sitesearch/js/birds.js' %}"></script>
+<script type="text/javascript" src="{% static 'sitesearch/js/renderers/TWeenMax.js' %}"></script>
+{% endblock %}
+<!--logo-->
+<!--搜索框-->
+{% block searchBar %}
+<div class="container container-s">
+    <div class="row row-s row-centered">
+      <div class="col-md-10 col-md-offset-1 trans height-30">
+        <div class="col-md-12 col-centered index-logo">
+            <img src="{% static 'sitesearch/img/logo_sm.png' %}" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-md-12  col-sm-8 col-xs-8 col-centered bg-w">
+            <form class="" role="search" method="GET" action="{% url 'sitesearch:word_search' %}" id="indexSearch">
+                <div>
+                    <input  type="text"  class="form-control input-lg" name="q" placeholder="搜索专利" id="searchDate"  autocomplete="off"/>
+                </div>
+                <a href="javascript:" name="submit" onclick="$('#indexSearch').submit();return false;" class="index-s"><i class="fa fa-search fa-2x"></i></a>
+            </form>
+            <a class="" id="adv-search" >高级搜索  <i class="fa fa-sort-desc fa-lg lineh-4" aria-hidden="true" id="adv-logo"></i></a>
+            <form role="search" method="GET" action="{% url 'sitesearch:word_search' %}" id="indexsearch" class="form-group row">
+                <div class="advanced-search">
+                    <div class="col-md-12"><input class="col-md-3" type="text" placeholder="申请号" name="appli_num"  autocomplete="off"><input class="col-md-3" type="text" placeholder="申请日" name="appli_time"  autocomplete="off"><input class="col-md-3" type="text" placeholder="名称" name="patent_name"  autocomplete="off"></div>
+                    <div class="col-md-12"><input class="col-md-3" type="text" placeholder="公开号" name="pub_num"  autocomplete="off"><input class="col-md-3" type="text" placeholder="公开日" name="pub_time"  autocomplete="off"><input class="col-md-3" type="text" placeholder="CPC分类号" name="cpc_classifi" disabled="disabled"  autocomplete="off"></div>
+                    <div class="col-md-12"><input class="col-md-3" type="text" placeholder="IPC分类号"  name="ipc_classifi"  autocomplete="off"><input class="col-md-3" type="text" placeholder="申请人" name="proposer"  autocomplete="off"><input class="col-md-3" type="text" placeholder="发明人" name="inventor"  autocomplete="off"></div>
+                    <div class="col-md-12"><input class="col-md-3" type="text" placeholder="代理人" disabled="disabled" name="angent"  autocomplete="off"><input class="col-md-3" type="text" placeholder="代理机构" disabled="disabled" name="angency"  autocomplete="off"><input class="col-md-3" type="text" placeholder="专利类型" disabled="disabled" name="patent_type"  autocomplete="off"></div>
+                    <div class="col-md-12"><input class="col-md-3" type="text" name="f_flag" value="0" style="display: none;" id="hiddenfg"></div>
+                    <div class="col-md-2 mrl-617"><button type="reset" class="adv-reset col-md-10" style="color: #999;margin-left: 40px;border-radius: 20px;">RESET</button></div>
+                    <div class="col-md-2"><button  type="submit" class="adv-submit col-md-10" style="color: white;margin-left: 30px; border-radius: 20px;" id="adv-submit">SUBMIT</a></div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block foot %}
+<footer id="footer" style="position:absolute; bottom:0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span><a href="#">联系我们</a></span>|<span><a href="#">免责申明</a></span></p>
+                <p><foot>©2003-2017 SooPAT</foot> <a href="#">苏ICP备11038928号-2</a> <foot>苏公网安备 32059002001550号</foot></p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}

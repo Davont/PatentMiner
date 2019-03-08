@@ -1,0 +1,118 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=0.1, maximum-scale=1.0 initial-scale=0.28">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">   
+    <script src="{% static 'sitesearch/js/new/jqajax.js' %}"></script>
+    <!--新的页面css导入-->
+    <link rel="stylesheet" href="{% static 'sitesearch/css/bootstrap.min14ed.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/font-awesome.min93e3.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/style.min862f.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/common-new.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/animate.css' %}">
+    <title>PatentMiner专利搜索</title>
+    <style>
+    </style>
+</head>
+<body class="gray-bg pt72">
+<!-- 导航栏 -->
+<!--顶部模块-->
+<div class="headbox c">
+    <div class="top-padd pull-left">
+        <div class="toplogo">
+            <a href="/"><img src="{% static 'sitesearch/img/logo_sm.png' %}" alt="首页"></a>
+        </div>
+        {% block topsearch %}{% endblock %}
+        <ul class="topMenu" id="side-menu">
+            <li>
+                <a href="/law_regulate/law_index" class="J_menuItem">
+                    <span class="nav-label">法规页面</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--中英文切换-->
+    <!--
+    <ul class="language">
+        <li class="active">
+            <a href="###">中文</a>
+        </li>
+        <li>
+           <a href="###">English</a>
+        </li>
+    </ul>
+    <div class="line"></div>
+    -->
+    <!--导航栏右侧用户下拉菜单-->
+    <div class="menubar">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- <ul class="right_nar">
+                    <li class="nav_first">
+                        <a href="javascript:void(0);" class="admininfo">
+                            <img class="img-circle mr_5" src="{% static 'sitesearch/img/head.png' %}" width="40" height="40"/>
+                            <p>Admin</p>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);">基本信息</a></li>
+                            <li><a href="javascript:void(0);">后台管理</a></li>
+                            <li><a  href="javascript:void(0);">切换用户</a></li>
+                            <li><a  href="javascript:void(0);">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul> -->
+            </div>
+        </nav>
+    </div>
+</div>
+{% block collection %}{% endblock %}
+{% block whitespace %}{% endblock %}
+{% block logo %}{% endblock %}
+{% block searchBar %}{% endblock %}
+{% block advanced_search %}{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block tablist %}{% endblock %}
+{% block background-birds %}{% endblock %}
+{% block ajax %}{% endblock %}
+{% block detail%}{% endblock %}
+
+
+
+<script type="text/javascript" src="{% static 'sitesearch/js/self_adaptation.js' %}"></script>
+<!--新的js文件导入-->
+<script src="{% static 'sitesearch/js/new/jquery.min2.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jquery.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jqajax.js' %}"></script>
+<!---->
+<script src="{% static 'sitesearch/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/echarts-all.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/macarons.js' %}"></script>
+
+<script src="{% static 'sitesearch/js/new/laydate/laydate.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/common.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jquery-ui.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/esl.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/select-widget-min.js' %}"></script>
+
+{% block js %}{% endblock %}
+{% block laws%}{% endblock %}
+{% block laws_details %}{%endblock%}
+{% block form_page %}{% endblock %}
+{% block foot %}
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span><a href="#">联系我们</a></span>|<span><a href="#">免责申明</a></span></p>
+                <p><foot>©2003-2017 SooPAT</foot> <a href="#">苏ICP备11038928号-2</a> <foot>苏公网安备 32059002001550号</foot></p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+{% block clickList %}{% endblock %}
+</body>
+</html>

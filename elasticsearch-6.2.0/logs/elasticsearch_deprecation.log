@@ -1,0 +1,2 @@
+[2018-04-27T14:19:44,379][WARN ][o.e.d.a.a.i.t.p.PutIndexTemplateRequest] Deprecated field [template] used, replaced by [index_patterns]
+[2018-04-27T14:19:44,547][WARN ][o.e.d.i.m.MapperService  ] [_default_] mapping is deprecated since it is not useful anymore now that indexes cannot have more than one type

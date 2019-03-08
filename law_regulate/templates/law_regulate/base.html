@@ -1,0 +1,236 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=0.1, maximum-scale=1.0 initial-scale=0.28">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">   
+    <link rel="stylesheet" href="{% static 'sitesearch/css/old/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/old/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/old/patent_list.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/old/index.css' %}">
+    <script type="text/javascript" src="{% static 'sitesearch/js/jquery.min.js' %}"></script>
+    <script src="{% static 'sitesearch/js/new/jqajax.js' %}"></script>
+    <!--新的页面css导入-->
+    <link rel="stylesheet" href="{% static 'sitesearch/css/bootstrap.min14ed.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/font-awesome.min93e3.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/style.min862f.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/common-new.css' %}">
+    <link rel="stylesheet" href="{% static 'sitesearch/css/animate.css' %}">
+    <title>PatentMiner专利搜索</title>
+    <style>
+    </style>
+</head>
+<body class="gray-bg pt72">
+<!-- 导航栏 -->
+<!--顶部模块-->
+<div class="headbox c">
+    <div class="top-padd pull-left">
+        <div class="toplogo">
+            <a href="/"><img src="{% static 'sitesearch/img/logo_sm.png' %}" alt="首页"></a>
+        </div>
+        {% block topsearch %}{% endblock %}
+        <ul class="topMenu" id="side-menu">
+            <!-- <li>
+                <a href="index.html" class="J_menuItem">
+                    <span class="nav-label">高级搜索</span>
+                </a>
+            </li> -->
+            <li>
+                <a href="/law_regulate/law_index" class="J_menuItem">
+                    <span class="nav-label">法规页面</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--
+    <ul class="language">
+        <li class="active">
+            <a href="###">中文</a>
+        </li>
+        <li>
+           <a href="###">English</a>
+        </li>
+    </ul>
+    
+    <div class="line"></div>
+    -->
+    <!-- <div class="menubar">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="right_nar">
+                    <li class="nav_first">
+                        <a href="javascript:void(0);" class="admininfo">
+                            <img class="img-circle mr_5" src="{% static 'sitesearch/img/head.png' %}" width="40" height="40"/>
+                            <p>Admin</p>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);">基本信息</a></li>
+                            <li><a href="javascript:void(0);">后台管理</a></li>
+                            <li><a  href="javascript:void(0);">切换用户</a></li>
+                            <li><a  href="javascript:void(0);">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div> -->
+<div class="menubar">
+    <nav class="navbar navbar-default fl-left">
+        <div class="container-fluid">
+            <ul class="right_nar">
+                <li class="nav_first">
+                    <a href="javascript:void(0);" class="admininfo lineh-28" onclick="clickList()">
+                        <i class="fa fa-bell fa-1x" aria-hidden="true"></i>
+                        <p>收藏列表</p>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" id="starList">
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</div> 
+{% block collection %}{% endblock %}
+{% block whitespace %}{% endblock %}
+{% block logo %}{% endblock %}
+{% block searchBar %}{% endblock %}
+{% block advanced_search %}{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block tablist %}{% endblock %}
+{% block background-birds %}{% endblock %}
+{% block ajax %}{% endblock %}
+{% block detail%}{% endblock %}
+
+
+
+<script type="text/javascript" src="{% static 'sitesearch/js/self_adaptation.js' %}"></script>
+<!--新的js文件导入-->
+<script src="{% static 'sitesearch/js/new/jquery.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jquery.min2.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jqajax.js' %}"></script>
+<script src="{% static 'sitesearch/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/echarts-all.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/macarons.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/laydate/laydate.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/common.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/jquery-ui.min.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/esl.js' %}"></script>
+<script src="{% static 'sitesearch/js/new/select-widget-min.js' %}"></script>
+
+{% block js %}{% endblock %}
+{% block laws%}{% endblock %}
+{% block laws_details %}{%endblock%}
+{% block form_page %}{% endblock %}
+{% block foot %}
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span><a href="#">联系我们</a></span>|<span><a href="#">免责申明</a></span></p>
+                <p><foot>©2003-2017 SooPAT</foot> <a href="#">苏ICP备11038928号-2</a> <foot>苏公网安备 32059002001550号</foot></p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+{% block clickList %}
+<script>
+    /*该代码不要改，这是Jquery，AJax与Django接通时候，可能碰到BUG的解决办法*/
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        var csrftoken = getCookie('csrftoken');
+        
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        
+        function sameOrigin(url) {
+            // test that a given url is a same-origin URL
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                !(/^(\/\/|http:|https:).*/.test(url));
+        }
+        
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        })
+        /*获取收藏数据函数*/
+        var starArray=new Array();
+                    function clickList() {
+                        $("#starList").empty();
+                        let i=0;
+                        $.ajax({  
+                        url: "{% url 'sitesearch:collect' %}", 
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            'patent_id':'',
+                        },  
+                        success:function(data){
+                            console.log(data)
+                            console.log(Object.keys(data).length)
+                            jQuery.each(data,function (index,element) {
+                                starArray.push(index)  
+                            })
+                            if(Object.keys(data).length){
+                                for(name in data){
+                                    let starList="<li><a  href=\"detail?q="+name+"\">"+data[name].patent_name+" "+data[name].appli_num+"</a></li>";
+                                    //let more="<li id=\"excel_more\"><span class=\"excel-left\"><a href=\"javascript:void(0);\" onclick=\"excelExport()\">导出</a></span> <span class=\"more-right\"><a href=\"/collection\">查看全部</a></span> </li>";
+                                    //console.log(data);
+                                    $("#starList").append(starList);
+                                }
+                                let more="<li id=\"excel_more\"><span class=\"excel-left\"><a href=\"javascript:void(0);\" onclick=\"excelExport()\">导出</a></span> <span class=\"more-right\"><a href=\"/collection\">查看全部</a></span> </li>";
+                                $("#starList").append(more);
+                            }
+                            else{
+                                let notList="<li><h3 style=\"padding:16px;\">暂无专利</h3></li>";
+                                $("#starList").append(notList);
+                            }
+                            
+                            
+                        },
+                        error:function(request, errorType, errorMessage) {
+                            console.log(request);
+                            console.log(errorType);
+                            console.log(errorMessage);
+                        }
+                    })
+                    }
+            </script>
+{% endblock %}
+</body>
+</html>
