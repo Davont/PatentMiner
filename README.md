@@ -26,9 +26,6 @@
 
 ### 整体模板 templates 分类：law_regulate，sitesearch
 
-![iUAKPO.png](https://s1.ax1x.com/2018/10/14/iUAKPO.png)
-
-![iUAMGD.png](https://s1.ax1x.com/2018/10/14/iUAMGD.png)
 
 - #### law_regulate 模板
 
